@@ -1,0 +1,753 @@
+/**
+ * phpMyAdmin Classic Theme (pmahomme) Pure Custom CSS
+ * Dirancang khusus untuk Admin Dashboard Statis (GitHub Pages + Supabase)
+ * Bebas Tailwind / Bootstrap - 100% Native Custom CSS
+ */
+
+:root {
+  /* phpMyAdmin Theme Color Palette */
+  --pma-bg-main: #ffffff;
+  --pma-bg-sidebar: #f5f5f5;
+  --pma-sidebar-border: #d4d4d4;
+  --pma-sidebar-db-bg: #e0e0e0;
+  --pma-sidebar-hover: #ffffcc;
+  
+  --pma-header-bg-start: #4b6cb7;
+  --pma-header-bg-end: #182848;
+  --pma-header-solid: #40719c;
+  --pma-header-border: #333333;
+  
+  --pma-tab-active-bg: #ffffff;
+  --pma-tab-active-border: #40719c;
+  --pma-tab-inactive-bg: #f0f0f0;
+  --pma-tab-border: #cccccc;
+  
+  --pma-table-border: #cccccc;
+  --pma-th-bg: #d9d9d9;
+  --pma-th-border: #cccccc;
+  --pma-tr-even: #f3f3f3;
+  --pma-tr-odd: #ffffff;
+  --pma-tr-hover: #ffffcc;
+  --pma-td-border: #e0e0e0;
+  
+  --pma-btn-primary: #40719c;
+  --pma-btn-primary-hover: #30517c;
+  --pma-btn-secondary: #e0e0e0;
+  --pma-btn-secondary-border: #999999;
+  --pma-btn-secondary-hover: #d0d0d0;
+  
+  --pma-info-bar-bg: #f5f5f5;
+  --pma-info-text: #555555;
+  
+  --pma-msg-success-bg: #e6ffe6;
+  --pma-msg-success-border: #00aa00;
+  --pma-msg-error-bg: #ffe6e6;
+  --pma-msg-error-border: #cc0000;
+  --pma-msg-notice-bg: #fffbe6;
+  --pma-msg-notice-border: #e6b800;
+
+  /* Typography */
+  --pma-font-main: 'Verdana', 'Arial', sans-serif;
+  --pma-font-mono: 'Courier New', 'Consolas', monospace;
+}
+
+/* 1. Global Reset & Typography */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--pma-bg-main);
+  color: #000000;
+  font-family: var(--pma-font-main);
+  font-size: 12px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: #235a81;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #000000;
+}
+
+/* 2. Top Header Bar */
+#pma-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(135deg, var(--pma-header-bg-start), var(--pma-header-bg-end));
+  border-bottom: 1px solid var(--pma-header-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  z-index: 1000;
+}
+
+.pma-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pma-logo {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pma-header-badge {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: var(--pma-font-mono);
+}
+
+.pma-header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #ffffff;
+  font-size: 11px;
+}
+
+.pma-user-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.9;
+}
+
+.pma-header-btn {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: var(--pma-font-main);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pma-header-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 3. Left Sidebar (Tree View) */
+#pma-sidebar {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  bottom: 0;
+  width: 250px;
+  background-color: var(--pma-bg-sidebar);
+  border-right: 1px solid var(--pma-sidebar-border);
+  overflow-y: auto;
+  z-index: 900;
+  padding-bottom: 20px;
+}
+
+.pma-sidebar-toolbar {
+  padding: 8px;
+  border-bottom: 1px solid var(--pma-sidebar-border);
+  background: #ebebeb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.pma-sidebar-search {
+  width: 100%;
+  padding: 4px 6px;
+  font-size: 11px;
+  border: 1px solid #b5b5b5;
+  background: #ffffff;
+  margin-top: 4px;
+}
+
+.pma-tree-group {
+  margin-bottom: 8px;
+}
+
+.pma-db-header {
+  background-color: var(--pma-sidebar-db-bg);
+  font-weight: bold;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #d0d0d0;
+  user-select: none;
+}
+
+.pma-db-header:hover {
+  background-color: var(--pma-sidebar-hover);
+}
+
+.pma-db-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pma-table-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pma-table-item {
+  background-color: #ffffff;
+  padding: 6px 8px 6px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 11px;
+}
+
+.pma-table-item:hover {
+  background-color: var(--pma-sidebar-hover);
+}
+
+.pma-table-item.active {
+  background-color: #ffffcc;
+  font-weight: bold;
+  border-left: 3px solid var(--pma-header-solid);
+  padding-left: 21px;
+}
+
+.pma-table-item-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pma-table-badge {
+  font-size: 9px;
+  color: #777;
+  background: #eee;
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-family: var(--pma-font-mono);
+}
+
+/* 4. Main Content Area */
+#pma-main {
+  margin-left: 250px;
+  margin-top: 40px;
+  padding: 15px;
+  min-height: calc(100vh - 40px);
+  background-color: var(--pma-bg-main);
+}
+
+/* Breadcrumb & Table Title */
+.pma-breadcrumb-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.pma-breadcrumbs {
+  font-size: 13px;
+  font-weight: bold;
+  color: #333333;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pma-breadcrumbs .pma-sep {
+  color: #999999;
+  font-weight: normal;
+}
+
+.pma-top-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* Tabs Navigation */
+.pma-nav-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--pma-tab-border);
+  padding-bottom: 0;
+}
+
+.pma-tab-button {
+  background-color: var(--pma-tab-inactive-bg);
+  border: 1px solid var(--pma-tab-border);
+  border-bottom: none;
+  padding: 6px 14px;
+  font-family: var(--pma-font-main);
+  font-size: 12px;
+  color: #333333;
+  cursor: pointer;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: -1px;
+}
+
+.pma-tab-button:hover {
+  background-color: #e5e5e5;
+}
+
+.pma-tab-button.active {
+  background-color: var(--pma-tab-active-bg);
+  border-bottom: 2px solid var(--pma-tab-active-border);
+  font-weight: bold;
+  color: #000000;
+  padding-bottom: 7px;
+}
+
+/* Notification & Alert Boxes */
+.pma-alert {
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  border-radius: 2px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pma-alert-success {
+  background-color: var(--pma-msg-success-bg);
+  border: 1px solid var(--pma-msg-success-border);
+  color: #006600;
+}
+
+.pma-alert-error {
+  background-color: var(--pma-msg-error-bg);
+  border: 1px solid var(--pma-msg-error-border);
+  color: #990000;
+}
+
+.pma-alert-notice {
+  background-color: var(--pma-msg-notice-bg);
+  border: 1px solid var(--pma-msg-notice-border);
+  color: #8a6d3b;
+}
+
+.pma-sql-query-preview {
+  background: #f8f9fa;
+  border: 1px solid #dcdcdc;
+  padding: 6px 10px;
+  font-family: var(--pma-font-mono);
+  font-size: 11px;
+  color: #003366;
+  margin-bottom: 12px;
+  border-left: 3px solid var(--pma-header-solid);
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+
+/* 5. Data Table (Tampilan 'Browse') */
+.pma-table-wrapper {
+  border: 1px solid var(--pma-table-border);
+  background-color: #ffffff;
+  overflow-x: auto;
+  margin-bottom: 0;
+}
+
+.pma-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.pma-data-table th {
+  background-color: var(--pma-th-bg);
+  border: 1px solid var(--pma-th-border);
+  text-align: left;
+  padding: 6px 8px;
+  font-weight: bold;
+  color: #000000;
+  user-select: none;
+}
+
+.pma-data-table th.sortable {
+  cursor: pointer;
+}
+
+.pma-data-table th.sortable:hover {
+  background-color: #cecece;
+}
+
+.pma-data-table td {
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--pma-td-border);
+  border-right: 1px solid #f0f0f0;
+  font-family: var(--pma-font-mono);
+  font-size: 11px;
+  color: #111111;
+  vertical-align: middle;
+}
+
+/* Zebra Striping */
+.pma-data-table tbody tr:nth-child(odd) {
+  background-color: var(--pma-tr-odd);
+}
+
+.pma-data-table tbody tr:nth-child(even) {
+  background-color: var(--pma-tr-even);
+}
+
+.pma-data-table tbody tr:hover {
+  background-color: var(--pma-tr-hover) !important;
+}
+
+.pma-data-table tbody tr.selected {
+  background-color: #ffffbb !important;
+}
+
+/* Checkbox Column */
+.pma-col-check {
+  width: 30px;
+  text-align: center;
+}
+
+.pma-data-table th.pma-col-check,
+.pma-data-table td.pma-col-check {
+  text-align: center;
+  padding: 5px 2px;
+}
+
+/* Action Icons Column */
+.pma-col-action {
+  width: 90px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.pma-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  margin: 0 2px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  color: #333333;
+}
+
+.pma-action-btn:hover {
+  color: var(--pma-header-solid);
+  background-color: rgba(64, 113, 156, 0.15);
+}
+
+.pma-null-value {
+  color: #888888;
+  font-style: italic;
+  font-weight: normal;
+}
+
+/* 6. Pagination & Info Bar */
+.pma-info-bar {
+  background-color: var(--pma-info-bar-bg);
+  padding: 8px 12px;
+  border: 1px solid var(--pma-table-border);
+  border-top: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.pma-info-text {
+  color: var(--pma-info-text);
+  font-family: var(--pma-font-main);
+}
+
+.pma-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pma-btn-page {
+  background-color: var(--pma-btn-secondary);
+  border: 1px solid var(--pma-btn-secondary-border);
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: var(--pma-font-main);
+  color: #222222;
+}
+
+.pma-btn-page:hover:not(:disabled) {
+  background-color: var(--pma-btn-secondary-hover);
+}
+
+.pma-btn-page:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Bulk Action Bar */
+.pma-bulk-bar {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+}
+
+.pma-bulk-bar select,
+.pma-bulk-bar button {
+  font-size: 11px;
+  padding: 3px 6px;
+  font-family: var(--pma-font-main);
+}
+
+/* 7. SQL Console View */
+.pma-sql-container {
+  background: #fdfdfd;
+  border: 1px solid #ccc;
+  padding: 12px;
+  border-radius: 2px;
+}
+
+.pma-sql-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.pma-shortcut-btn {
+  background: #e8e8e8;
+  border: 1px solid #bbb;
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: var(--pma-font-main);
+}
+
+.pma-shortcut-btn:hover {
+  background: #dadada;
+}
+
+.pma-sql-textarea {
+  width: 100%;
+  height: 150px;
+  font-family: var(--pma-font-mono);
+  font-size: 12px;
+  background-color: #fcfcfc;
+  border: 1px solid #999999;
+  padding: 8px;
+  resize: vertical;
+  color: #111111;
+  outline: none;
+}
+
+.pma-sql-textarea:focus {
+  border-color: var(--pma-btn-primary);
+  background-color: #ffffff;
+}
+
+.pma-sql-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.pma-btn-go {
+  background-color: var(--pma-btn-primary);
+  color: #ffffff;
+  padding: 5px 18px;
+  border: 1px solid #284c6c;
+  border-radius: 2px;
+  font-family: var(--pma-font-main);
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.pma-btn-go:hover {
+  background-color: var(--pma-btn-primary-hover);
+}
+
+.pma-btn-clear {
+  background-color: var(--pma-btn-secondary);
+  border: 1px solid var(--pma-btn-secondary-border);
+  padding: 5px 12px;
+  border-radius: 2px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.pma-btn-clear:hover {
+  background-color: var(--pma-btn-secondary-hover);
+}
+
+/* 8. Insert / Form View */
+.pma-form-container {
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  padding: 12px;
+}
+
+.pma-form-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 12px;
+}
+
+.pma-form-table th {
+  background-color: var(--pma-th-bg);
+  border: 1px solid var(--pma-th-border);
+  padding: 6px 8px;
+  text-align: left;
+  font-size: 11px;
+}
+
+.pma-form-table td {
+  padding: 6px 8px;
+  border: 1px solid #e0e0e0;
+  vertical-align: middle;
+  font-size: 11px;
+}
+
+.pma-input-text,
+.pma-input-select {
+  width: 100%;
+  padding: 4px 6px;
+  font-family: var(--pma-font-mono);
+  font-size: 11px;
+  border: 1px solid #b5b5b5;
+  border-radius: 1px;
+}
+
+.pma-input-text:focus,
+.pma-input-select:focus {
+  border-color: var(--pma-btn-primary);
+  outline: none;
+}
+
+/* Modal Popup Styles */
+.pma-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 15px;
+}
+
+.pma-modal-box {
+  background: #ffffff;
+  border: 2px solid var(--pma-header-solid);
+  width: 100%;
+  max-width: 650px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.pma-modal-header {
+  background: linear-gradient(135deg, var(--pma-header-bg-start), var(--pma-header-bg-end));
+  color: #ffffff;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pma-modal-close {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.pma-modal-body {
+  padding: 15px;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+.pma-modal-footer {
+  padding: 10px 15px;
+  background: #f5f5f5;
+  border-top: 1px solid #dddddd;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Code Snippet Box */
+.pma-code-box {
+  background: #282c34;
+  color: #abb2bf;
+  padding: 10px;
+  font-family: var(--pma-font-mono);
+  font-size: 11px;
+  border-radius: 3px;
+  overflow-x: auto;
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #pma-sidebar {
+    width: 200px;
+  }
+  #pma-main {
+    margin-left: 200px;
+    padding: 10px;
+  }
+}

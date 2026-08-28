@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>phpMyAdmin 5.2 - Supabase PostgreSQL Cloud Dashboard</title>
+  <!-- Pure Custom CSS phpMyAdmin pmahomme Theme -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Supabase JS Client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- 1. Top Header Bar -->
+  <header id="pma-header">
+    <div class="pma-header-left">
+      <div class="pma-logo">
+        <span>🐘</span> Admin Panel
+      </div>
+      <span class="pma-header-badge" id="pma-conn-badge">DEMO MODE</span>
+      <span style="color: #cfd9e8; font-size: 11px;">(Supabase PostgreSQL Cloud)</span>
+    </div>
+    
+    <div class="pma-header-right">
+      <div class="pma-user-info">
+        <span>👤</span> <span>postgres@supabase-cloud</span>
+      </div>
+      <button class="pma-header-btn" onclick="switchTab('config')" title="Atur Koneksi Supabase">
+        ⚙️ Pengaturan
+      </button>
+      <button class="pma-header-btn" onclick="switchTab('guide')" title="Panduan GitHub Pages">
+        📖 Panduan Deploy
+      </button>
+      <button class="pma-header-btn" onclick="alert('Anda sedang berada di mode static dashboard GitHub Pages.')" title="Keluar">
+        🚪 Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- 2. Left Sidebar (Tree View) -->
+  <aside id="pma-sidebar">
+    <div class="pma-sidebar-toolbar">
+      <span><strong>Recent / Database Tree</strong></span>
+      <button class="pma-btn-page" style="padding: 1px 5px; font-size: 10px;" onclick="renderSidebar()" title="Muat Ulang Sidebar">🔄</button>
+    </div>
+
+    <!-- Tree Group: Databases -->
+    <div class="pma-tree-group">
+      <div class="pma-db-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
+        <div class="pma-db-title">
+          <span>📂</span>
+          <span>public</span>
+        </div>
+        <span style="font-size: 10px;">▼</span>
+      </div>
+
+      <ul class="pma-table-list" id="pma-sidebar-tables">
+        <!-- Dimuat secara dinamis oleh app.js -->
+      </ul>
+    </div>
+
+    <!-- Tree Group: External API -->
+    <div class="pma-tree-group">
+      <div class="pma-db-header" onclick="switchTab('api')">
+        <div class="pma-db-title">
+          <span>🌐</span>
+          <span>External REST APIs</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 3. Main Content Area -->
+  <main id="pma-main">
+    
+    <!-- Breadcrumb Bar -->
+    <div class="pma-breadcrumb-bar">
+      <div class="pma-breadcrumbs" id="pma-breadcrumbs-text">
+        <span>Server: Supabase Cloud</span>
+        <span class="pma-sep">&gt;</span>
+        <span>Database: <strong>public</strong></span>
+        <span class="pma-sep">&gt;</span>
+        <span>Tabel: <strong>users</strong></span>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <nav class="pma-nav-tabs">
+      <button class="pma-tab-button active" data-tab="browse" onclick="switchTab('browse')">📊 Browse</button>
+      <button class="pma-tab-button" data-tab="structure" onclick="switchTab('structure')">📄 Structure</button>
+      <button class="pma-tab-button" data-tab="sql" onclick="switchTab('sql')">⚡ SQL Console</button>
+      <button class="pma-tab-button" data-tab="search" onclick="switchTab('search')">🔍 Search</button>
+      <button class="pma-tab-button" data-tab="insert" onclick="switchTab('insert')">➕ Insert</button>
+      <button class="pma-tab-button" data-tab="export" onclick="switchTab('export')">💾 Export</button>
+      <button class="pma-tab-button" data-tab="api" onclick="switchTab('api')">🌐 External API</button>
+      <button class="pma-tab-button" data-tab="config" onclick="switchTab('config')">⚙️ Koneksi Supabase</button>
+      <button class="pma-tab-button" data-tab="guide" onclick="switchTab('guide')">📘 Panduan Setup</button>
+    </nav>
+
+    <!-- Tab 1: Browse View (Data Table) -->
+    <section id="tab-content-browse" class="pma-tab-content">
+      <div id="pma-browse-container">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- Tab 2: Structure View -->
+    <section id="tab-content-structure" class="pma-tab-content" style="display: none;">
+      <div id="pma-structure-container">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- Tab 3: SQL Console -->
+    <section id="tab-content-sql" class="pma-tab-content" style="display: none;">
+      <div class="pma-sql-container">
+        <h4 style="margin-bottom: 8px;">Jalankan SQL Query pada database [public]:</h4>
+        <div class="pma-sql-shortcuts">
+          <button class="pma-shortcut-btn" onclick="insertSqlSnippet('SELECT')">SELECT *</button>
+          <button class="pma-shortcut-btn" onclick="insertSqlSnippet('SELECT_COLS')">SELECT Kolom</button>
+          <button class="pma-shortcut-btn" onclick="insertSqlSnippet('INSERT')">INSERT</button>
+          <button class="pma-shortcut-btn" onclick="insertSqlSnippet('UPDATE')">UPDATE</button>
+          <button class="pma-shortcut-btn" onclick="insertSqlSnippet('DELETE')">DELETE</button>
+          <button class="pma-shortcut-btn" onclick="insertSqlSnippet('COUNT')">COUNT(*)</button>
+        </div>
+        <textarea id="sql-query-input" class="pma-sql-textarea" placeholder="Tuliskan query SQL Anda di sini..."></textarea>
+        <div class="pma-sql-action-bar">
+          <button class="pma-btn-clear" onclick="document.getElementById('sql-query-input').value = ''">Bersihkan</button>
+          <button class="pma-btn-go" onclick="executeSqlQuery()">Jalankan (Go)</button>
+        </div>
+      </div>
+      <div id="sql-result-container" style="margin-top: 15px;"></div>
+    </section>
+
+    <!-- Tab 4: Search View -->
+    <section id="tab-content-search" class="pma-tab-content" style="display: none;">
+      <div class="pma-form-container">
+        <h4 style="margin-bottom: 10px;">Cari Data pada Tabel</h4>
+        <div style="display: flex; gap: 8px; margin-bottom: 15px;">
+          <input type="text" id="search-input-field" class="pma-input-text" placeholder="Ketik kata kunci pencarian..." onkeyup="if(event.key==='Enter') doSearch()">
+          <button class="pma-btn-go" onclick="doSearch()">Cari</button>
+          <button class="pma-btn-clear" onclick="resetSearch()">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 5: Insert View -->
+    <section id="tab-content-insert" class="pma-tab-content" style="display: none;">
+      <div id="pma-insert-container">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- Tab 6: Export View -->
+    <section id="tab-content-export" class="pma-tab-content" style="display: none;">
+      <div id="pma-export-container">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- Tab 7: External API Fetcher -->
+    <section id="tab-content-api" class="pma-tab-content" style="display: none;">
+      <div class="pma-form-container">
+        <h4 style="margin-bottom: 10px;">🌐 Integrasi API Eksternal (Website Lain)</h4>
+        <p style="font-size: 11px; color: #555; margin-bottom: 10px;">
+          Ambil data dari endpoint REST API website lain dan tampilkan otomatis dalam format tabel phpMyAdmin.
+        </p>
+
+        <div class="pma-api-control-bar">
+          <select id="external-api-method" class="pma-api-method-select">
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+          </select>
+          <input type="text" id="external-api-url" class="pma-api-url-input" value="https://jsonplaceholder.typicode.com/users" placeholder="https://api.website-saya.com/data">
+          <button class="pma-btn-go" onclick="fetchExternalApiData()">Fetch API (Go)</button>
+        </div>
+
+        <div style="font-size: 11px; margin-bottom: 12px; color: #666;">
+          Contoh Endpoint Uji Coba:
+          <a onclick="document.getElementById('external-api-url').value='https://jsonplaceholder.typicode.com/users'; fetchExternalApiData();">jsonplaceholder/users</a> | 
+          <a onclick="document.getElementById('external-api-url').value='https://jsonplaceholder.typicode.com/posts'; fetchExternalApiData();">jsonplaceholder/posts</a> |
+          <a onclick="document.getElementById('external-api-url').value='https://dummyjson.com/products?limit=10'; fetchExternalApiData();">dummyjson/products</a>
+        </div>
+
+        <div id="external-api-result"></div>
+      </div>
+    </section>
+
+    <!-- Tab 8: Supabase Config -->
+    <section id="tab-content-config" class="pma-tab-content" style="display: none;">
+      <div class="pma-form-container">
+        <h4 style="margin-bottom: 10px;">⚙️ Konfigurasi Supabase Project</h4>
+        <p style="font-size: 11px; color: #555; margin-bottom: 12px;">
+          Masukkan Project URL dan Anon Key dari dashboard Supabase Anda. Kredensial disimpan secara aman di <code>localStorage</code> browser klien Anda.
+        </p>
+
+        <table class="pma-form-table">
+          <tr>
+            <td style="width: 25%;"><strong>Supabase Project URL</strong></td>
+            <td>
+              <input type="text" id="cfg-supabase-url" class="pma-input-text" placeholder="https://xyzcompany.supabase.co">
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Supabase Anon Key</strong></td>
+            <td>
+              <input type="password" id="cfg-supabase-key" class="pma-input-text" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+            </td>
+          </tr>
+        </table>
+
+        <div class="pma-sql-action-bar">
+          <button class="pma-btn-go" onclick="saveSupabaseConfig()">Simpan & Hubungkan</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 9: GitHub Pages Guide -->
+    <section id="tab-content-guide" class="pma-tab-content" style="display: none;">
+      <div class="pma-form-container">
+        <h3 style="margin-bottom: 12px; color: #182848;">📘 Panduan Setup Supabase & Hosting ke GitHub Pages</h3>
+        
+        <h4 style="margin-top: 15px; margin-bottom: 6px;">Langkah 1: Setup Supabase Database</h4>
+        <ol style="margin-left: 20px; line-height: 1.6; font-size: 11px;">
+          <li>Buka <a href="https://supabase.com" target="_blank">https://supabase.com</a> dan buat akun / project gratis.</li>
+          <li>Di menu <strong>Project Settings &gt; API</strong>, salin <code>Project URL</code> dan <code>anon / public key</code>.</li>
+          <li>Di menu <strong>SQL Editor</strong>, buat tabel contoh seperti <code>users</code>, <code>products</code>, atau <code>orders</code>.</li>
+          <li>Pastikan <em>Row Level Security (RLS)</em> mengizinkan SELECT/INSERT untuk anonim atau konfigurasi policy sesuai kebutuhan.</li>
+        </ol>
+
+        <h4 style="margin-top: 15px; margin-bottom: 6px;">Langkah 2: Deploy ke GitHub Pages</h4>
+        <ol style="margin-left: 20px; line-height: 1.6; font-size: 11px;">
+          <li>Buat repositori baru di GitHub (misal: <code>admin-dashboard</code>).</li>
+          <li>Unggah 3 file berikut ke root repositori:
+            <ul style="margin-left: 15px; font-family: monospace;">
+              <li>index.html</li>
+              <li>style.css</li>
+              <li>app.js</li>
+            </ul>
+          </li>
+          <li>Buka <strong>Settings &gt; Pages</strong> pada repositori GitHub Anda.</li>
+          <li>Pada bagian <em>Build and deployment &gt; Source</em>, pilih <strong>Deploy from a branch</strong>, pilih branch <code>main</code> (atau <code>master</code>) dan folder <code>/ (root)</code>, lalu klik <strong>Save</strong>.</li>
+          <li>Website dashboard phpMyAdmin Anda akan aktif di <code>https://username.github.io/admin-dashboard/</code> dalam 1-2 menit!</li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Edit Row Modal -->
+  <div id="pma-edit-modal" class="pma-modal-overlay" style="display: none;">
+    <div class="pma-modal-box">
+      <div class="pma-modal-header">
+        <span>✏️ Ubah Baris Data</span>
+        <button class="pma-modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="pma-modal-body" id="pma-modal-body-content">
+        <!-- Content inserted dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="app.js"></script>
+  <script>
+    function doSearch() {
+      const input = document.getElementById("search-input-field");
+      if (input) {
+        searchKeyword = input.value;
+        switchTab("browse");
+      }
+    }
+    function resetSearch() {
+      const input = document.getElementById("search-input-field");
+      if (input) input.value = "";
+      searchKeyword = "";
+      switchTab("browse");
+    }
+  </script>
+</body>
+</html>
