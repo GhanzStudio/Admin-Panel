@@ -8,8 +8,8 @@
 // 1. SUPABASE CLIENT CONFIGURATION
 // ==========================================
 // Ganti placeholder di bawah dengan kredensial Supabase Anda
-const DEFAULT_SUPABASE_URL = "https://your-project-id.supabase.co";
-const DEFAULT_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
+const DEFAULT_SUPABASE_URL = "https://kmskupaqvdhjgxbmbrlw.supabase.co";
+const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable__eJM-QwumC2P7AzhJISWNg_ZmDfllMV";
 
 // LocalStorage cache agar konfigurasi Anda tersimpan di browser
 let SUPABASE_URL = localStorage.getItem("pma_supabase_url") || DEFAULT_SUPABASE_URL;
