@@ -315,14 +315,17 @@ export const CodeExportModal: React.FC<CodeExportModalProps> = ({ isOpen, onClos
     let editingRowId = null;
     let supabaseClient = null;
 
+    const DEFAULT_URL = "https://kmskupaqvdhjgxbmbrlw.supabase.co";
+    const DEFAULT_KEY = "sb_publishable__eJM-QwumC2P7AzhJISWNg_ZmDfllMV";
+
     function initSupabase() {
-      const url = localStorage.getItem("pma_supabase_url");
-      const key = localStorage.getItem("pma_supabase_anon_key");
+      const url = localStorage.getItem("pma_supabase_url") || DEFAULT_URL;
+      const key = localStorage.getItem("pma_supabase_anon_key") || DEFAULT_KEY;
       if (url && key && typeof supabase !== "undefined") {
         try {
           supabaseClient = supabase.createClient(url, key);
           const badge = document.getElementById("pma-conn-badge");
-          if (badge) { badge.textContent = "CONNECTED (Live)"; badge.style.background = "#28a745"; }
+          if (badge) { badge.textContent = "CONNECTED (Supabase Live)"; badge.style.background = "#28a745"; }
         } catch (e) {
           console.warn("Supabase init error:", e);
         }

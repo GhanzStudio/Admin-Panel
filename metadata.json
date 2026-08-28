@@ -2,5 +2,7 @@
   "name": "phpMyAdmin Dashboard for Supabase",
   "description": "Admin dashboard dengan tema klasik phpMyAdmin (pmahomme) menggunakan HTML, CSS kustom, JavaScript statis, integrasi Supabase, dan API eksternal untuk GitHub Pages.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
